@@ -15,11 +15,12 @@ module Fakeout
     # create users (can be admins)
     def users(count = 1, options = {})
       1.upto(count) do
-        user = User.new({ :email                 => random_unique_email,
-                          :first_name            => Faker::Name.first_name,
-                          :last_name             => Faker::Name.last_name,
-                          :phone_number          => Faker::PhoneNumber.phone_number,
-                          :address               => Faker::Address.street_address}.merge(options))
+        user = User.new({ email:        random_unique_email,
+                          first_name:   Faker::Name.first_name,
+                          last_name:    Faker::Name.last_name,
+                          phone_number: Faker::PhoneNumber.phone_number,
+                          address:      Faker::Address.street_address,
+                          age:          rand(21..60)}.merge(options))
         user.save
       end
       self.report.increment(:users, count)
@@ -28,11 +29,12 @@ module Fakeout
     # create products (can be free)
     def jobs(count = 1, options = {})
       1.upto(count) do
-        job   = Job.new({ :job_title  => Faker::Company.catch_phrase,
-                         :salary      => 2000+Random.rand(5000),
-                         :company     => Faker::Company.name,
-                         :skill       => Faker::Lorem.words(1).first,
-                         :description => Faker::Lorem.paragraph(2) }.merge(options))
+        job   = Job.new({ job_title:      Faker::Company.catch_phrase,
+                          salary:         2000+Random.rand(5000),
+                          company:        Faker::Company.name,
+                          skill:          Faker::Lorem.words(1).first,
+                          description:    Faker::Lorem.paragraph(2),
+                          published_date: Date.today.days_ago(rand(1..365))}.merge(options))
         job.save
       end
       self.report.increment(:products, count)

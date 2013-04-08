@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20130403082642) do
     t.string   "company"
     t.string   "skill"
     t.text     "description"
+    t.date     "published_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -32,6 +33,7 @@ ActiveRecord::Schema.define(version: 20130403082642) do
     t.string   "last_name"
     t.string   "phone_number"
     t.string   "address"
+    t.integer  "age"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

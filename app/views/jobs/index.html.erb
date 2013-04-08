@@ -8,6 +8,7 @@
       <th>Company</th>
       <th>Skill</th>
       <th>Description</th>
+      <th>Published Date</th>
       <th></th>
       <th></th>
       <th></th>
@@ -22,6 +23,7 @@
       <td><%= job.company %></td>
       <td><%= job.skill %></td>
       <td><%= job.description %></td>
+      <td><%= job.published_date %></td>
       <td><%= link_to 'Show', job %></td>
       <td><%= link_to 'Edit', edit_job_path(job) %></td>
       <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %></td>
