@@ -15,12 +15,15 @@ class User < ActiveRecord::Base
   # http://stackoverflow.com/questions/3875382/lucene-standard-analyzer-vs-snowball
   # http://stackoverflow.com/questions/9670016/how-do-i-set-the-default-analyzer-for-elastic-search-with-tire
 
-  #mapping do
-  #  indexes :id,           :index    => :not_analyzed
-  #  indexes :first_name,   type: 'string', :index => :not_analyzed
-  #  indexes :last_name,    type: 'string', :index => :not_analyzed
-  #  indexes :email,        :analyzer => 'keyword'
-  #end
+  mapping do
+    indexes :id,           type: "integer" ,index: :not_analyzed
+
+    # Boost increases priority when searching. Default value is 1.0
+    indexes :first_name,   type: 'string', index: :not_analyzed, boost: 10
+
+    indexes :last_name,    type: 'string', :index => :not_analyzed
+    indexes :email,        :analyzer => 'keyword'
+  end
 
   # You can just use the default #search of Tire
   # Or you can override the method and make your own custom search
@@ -38,8 +41,17 @@ class User < ActiveRecord::Base
       # Types for filters available at
       # http://www.elasticsearch.org/guide/reference/query-dsl/
       filter :range, age: { lte: params[:age_filter].to_i } if params[:age_filter].present?
-      sort { by :age, "asc" }
+      filter :term, age:params[:age].to_i if params[:age].present?
 
+      sort { by :age, "asc" }
+      facet "ages" do
+        # Kinds of facets: terms, range, histogram, date histogram, filter, query, statistical,
+        # terms stats, geo distance
+
+        # Show 5 highest results by age
+        # Order options: count, term, reverse_count or reverse_term
+        terms :age, size: 5, order: "term"
+      end
     end
   end
 
