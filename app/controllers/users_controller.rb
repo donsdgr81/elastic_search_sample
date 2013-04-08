@@ -4,10 +4,16 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    if params[:query].present?
+    if params[:query].present? || params[:age_filter].present?
       # load: true => Pull records from AR and not just from ES
       # Fully compatible with will_paginate just add page option
-      #@users = User.search(params[:query], load: true, page: (params[:page] || 1), per_page: 2)
+      # @users = User.search(params[:query], load: true, page: (params[:page] || 1), per_page: 2)
+
+      # When searching, you can use * for wildcard characters
+      # Use [field_name]:query to do a specific search to a specific field
+      # By default, searching "string1 string2" uses an OR operator
+      # You can do "string1 AND string2" to require both strings to be present
+      # You can also do "string1 NOT string2" to omit a word from the search results
 
       @users = User.search(params)
     else
