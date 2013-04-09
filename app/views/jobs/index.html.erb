@@ -1,11 +1,18 @@
 <h1>Listing jobs</h1>
 
+<%= form_tag jobs_path, :method => 'get' do %>
+  <%= label_tag :query %>
+  <%= text_field_tag :query, params[:query] %>
+  <%= submit_tag :search %>
+<% end %>
+
 <table>
   <thead>
     <tr>
       <th>Job title</th>
       <th>Salary</th>
       <th>Company</th>
+      <th>Client Name</th>
       <th>Skill</th>
       <th>Description</th>
       <th>Published Date</th>
@@ -21,6 +28,7 @@
       <td><%= job.job_title %></td>
       <td><%= job.salary %></td>
       <td><%= job.company %></td>
+      <td><%= job.client_name %></td>
       <td><%= job.skill %></td>
       <td><%= job.description %></td>
       <td><%= job.published_date %></td>

@@ -32,6 +32,7 @@ module Fakeout
         job   = Job.new({ job_title:      Faker::Company.catch_phrase,
                           salary:         2000+Random.rand(5000),
                           company:        Faker::Company.name,
+                          client_name:    Faker::Name.name,
                           skill:          Faker::Lorem.words(1).first,
                           description:    Faker::Lorem.paragraph(2),
                           published_date: Date.today.days_ago(rand(1..365))}.merge(options))

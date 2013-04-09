@@ -4,6 +4,7 @@ class CreateJobs < ActiveRecord::Migration
       t.string :job_title
       t.float  :salary
       t.string :company
+      t.string :client_name
       t.string :skill
       t.text   :description
       t.date   :published_date
