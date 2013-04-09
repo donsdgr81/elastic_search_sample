@@ -9,18 +9,20 @@
 <% end %>
 
 <h3>Ages</h3>
-<ul>
-  <% @users.facets['ages']['terms'].each do |facet| %>
-    <li>
-      <%= link_to_unless_current facet['term'], params.merge(age: facet['term']) %>
-      <% if params[:age] == facet['term'].to_s %>
-        (<%= link_to "remove", params.merge(age: nil) %>)
-      <% else %>
-        (<%= facet['count'] %>)
-      <% end %>
-    </li>
-  <% end %>
-</ul>
+<% if @users.try(:facets) %>
+  <ul>
+    <% @users.facets['ages']['terms'].each do |facet| %>
+      <li>
+        <%= link_to_unless_current facet['term'], params.merge(age: facet['term']) %>
+        <% if params[:age] == facet['term'].to_s %>
+          (<%= link_to "remove", params.merge(age: nil) %>)
+        <% else %>
+          (<%= facet['count'] %>)
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
 
 <table>
   <thead>
