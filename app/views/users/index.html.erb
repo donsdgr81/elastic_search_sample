@@ -8,8 +8,8 @@
   <%= submit_tag :search %>
 <% end %>
 
-<h3>Ages</h3>
 <% if @users.try(:facets) %>
+  <h3>Ages</h3>
   <ul>
     <% @users.facets['ages']['terms'].each do |facet| %>
       <li>
@@ -43,7 +43,7 @@
     <% @users.each do |user| %>
     <tr>
       <td><%= user.email %></td>
-      <td><%= user.first_name %></td>
+      <td><%= user.try(:highlight).nil? ? user.first_name : user.highlight.first_name[0].html_safe %></td>
       <td><%= user.last_name %></td>
       <td><%= user.phone_number %></td>
       <td><%= user.address %></td>

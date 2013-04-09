@@ -16,13 +16,13 @@ class User < ActiveRecord::Base
   # http://stackoverflow.com/questions/9670016/how-do-i-set-the-default-analyzer-for-elastic-search-with-tire
 
   mapping do
-    indexes :id,           type: "integer" ,index: :not_analyzed
+    indexes :id,           type: 'integer' ,index: :not_analyzed
 
     # Boost increases priority when searching. Default value is 1.0
-    indexes :first_name,   type: 'string', index: :not_analyzed, boost: 10
+    indexes :first_name,   type: 'string'
 
-    indexes :last_name,    type: 'string', :index => :not_analyzed
-    indexes :email,        :analyzer => 'keyword'
+    indexes :last_name,    type: 'string'
+    indexes :email,        type: 'string'
   end
 
   # You can just use the default #search of Tire
@@ -43,15 +43,26 @@ class User < ActiveRecord::Base
       filter :range, age: { lte: params[:age_filter].to_i } if params[:age_filter].present?
       filter :term, age:params[:age].to_i if params[:age].present?
 
-      sort { by :age, "asc" }
-      facet "ages" do
+      sort { by :age, 'asc' }
+      facet 'ages' do
         # Kinds of facets: terms, range, histogram, date histogram, filter, query, statistical,
         # terms stats, geo distance
 
         # Show 5 highest results by age
         # Order options: count, term, reverse_count or reverse_term
-        terms :age, size: 5, order: "term"
+        terms :age, size: 5, order: 'term'
       end
+
+      # To add highlighting to results use the #highlight function
+      # It accepts an array of symbols for field names
+
+      highlight :first_name
+      #highlight(:first_name, :last_name, :address, pre_tags: '<em>', post_tags: '</em>')
+
+      #highlight do
+      #  pre_tags ['<em>']
+      #  post_tags ['</em>']
+      #end
     end
   end
 
